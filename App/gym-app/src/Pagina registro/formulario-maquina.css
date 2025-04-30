@@ -1,0 +1,76 @@
+.registro-formulario {
+  flex: 10;
+  height: 100%;
+  background: var(--background-light);
+  border-radius: 12px;
+  margin-left: 40px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.021);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* Título */
+.registro-formulario h1 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-align: center;
+  color: var(--primary-blue);
+}
+
+/* Formulario Grid */
+form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+  gap: 15px 20px;
+}
+
+/* Inputs ocupan espacio correctamente */
+label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--input-border-light);
+  border-radius: 6px;
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  height: 38px;
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  input[type="text"],
+  input[type="date"],
+  select {
+    background-color: #2c2c2c;
+    color: var(--text-light);
+    border: 1px solid var(--input-border-dark);
+  }
+}
+
+/* Botón */
+button {
+  grid-column: span 2; /* Ocupa las dos columnas */
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #1a1a1a;
+  color: var(--text-light);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: var(--primary-blue);
+}
