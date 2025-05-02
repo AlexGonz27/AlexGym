@@ -84,6 +84,7 @@ const FormularioRegistro: React.FC<FormularioRegistroProps> = ({
         <label>
           Notas:
           <input
+            className="Nota-maquina"
             type="text"
             name="notas"
             value={formData.notas}

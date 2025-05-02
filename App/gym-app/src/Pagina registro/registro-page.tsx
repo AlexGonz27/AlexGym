@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import FormularioRegistro from "./formulario-maquina";
 import Subeimagen from "./sube-img";
 import "./registro-page.css";
@@ -38,6 +39,9 @@ const RegistroPage: React.FC = () => {
         handleSubmit={handleSubmit}
       />
       <Subeimagen />
+      <Link to="/">
+        <button className="boton-volver">Volver</button>
+      </Link>
     </div>
   );
 };
