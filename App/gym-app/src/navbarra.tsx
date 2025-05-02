@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
             Abrir Modal
           </button>
 
-          <Link to="/page-registro">
+          <Link to="/page-registro" className="no-underline">
             <button className="nav-button secondary">Pantalla registro</button>
           </Link>
         </div>

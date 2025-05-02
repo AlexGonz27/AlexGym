@@ -2,9 +2,9 @@
 .navbar-container {
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
-  color: rgb(10, 10, 10);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff00;
+  color: rgb(255, 227, 227);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -41,11 +41,12 @@
   align-items: center;
   width: 60%;
   height: 100%;
+  text-decoration: none;
 }
 
 /* Estilos base para botones */
 .nav-button {
-  border-radius: 8px;
+  border-radius: 20px;
   border: none;
   font-size: 1rem;
   font-weight: 600;
@@ -53,7 +54,7 @@
   transition: all 0.3s ease;
   display: block; /* Comportamiento de bloque */
   width: 100%;
-
+  color: #8186f3;
   max-width: 200px;
   text-align: center;
   align-items: center;
@@ -62,31 +63,23 @@
 
 /* Botón primario */
 .primary {
-  background-color: #1a1a1a;
-  color: white;
+  background-color: #1a1a1a00;
+  width: 150px;
 }
 
 .primary:hover {
-  background-color: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #7e7e7e85;
 }
 
 /* Botón secundario */
 .secondary {
-  color: white;
+  background-color: #1a1a1a00;
+  width: 180px;
+  text-decoration: none;
 }
 
 .secondary:hover {
-  background-color: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Efectos de focus */
-.nav-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+  background-color: #7e7e7e85;
 }
 
 /* Responsive */
@@ -111,4 +104,9 @@
   .navbar-logo {
     margin-bottom: 1rem;
   }
+}
+
+/* En tu CSS */
+.no-underline {
+  text-decoration: none;
 }
