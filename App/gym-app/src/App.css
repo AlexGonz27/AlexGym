@@ -10,9 +10,8 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-template-rows:
-    60px /* Fila 1: Barra superior */
-    200px /* Fila 2: Contenido principal (ocupará todo espacio disponible) */
-    200px; /* Fila 3: Botones (altura según contenido) */
+    48px /* Fila 1: Barra superior */
+    auto /* Fila 2: Contenido principal (ocupará todo espacio disponible) */; /* Fila 3: Botones (altura según contenido) */
   gap: 8px;
   width: 100%;
   height: 100vh; /* Cambiado de min-height a height para precisión */
@@ -34,13 +33,16 @@
 }
 
 .div3 {
-  grid-column: 2 / span 3;
+  grid-column: 1 / -1;
   grid-row: 2; /* Asignado a fila 2 */
+  height: 100%;
   display: flex;
+  margin-top: 20px;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0;
+  padding: 3px;
   align-self: center; /* Centrado vertical en su celda */
+  background-color: rgba(255, 255, 255, 0.048);
 }
 
 .div4 {

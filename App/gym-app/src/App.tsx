@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Registro from "./Pagina registro/registro-page";
 import "./App.css";
 import Navbar from "./navbarra";
+import Panel from "./panel-maquinas";
 
 const Home: React.FC = () => {
   return (
@@ -12,7 +13,7 @@ const Home: React.FC = () => {
       </div>
 
       <div className="div3">
-        <h1>Pantalla Principal</h1>
+        <Panel />
       </div>
 
       <div className="div4"></div>
