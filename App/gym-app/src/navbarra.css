@@ -20,16 +20,31 @@
   height: 100%;
 }
 
-/* Logo */
+/* Contenedor del logo + texto */
 .navbar-logo {
   display: flex;
   align-items: center;
+  gap: 10px; /* Espacio entre logo y texto */
+  height: 100%;
+  padding-left: 20px; /* Espaciado del borde izquierdo */
 }
 
+/* Estilo para la imagen del logo */
+.navbar-logo-img {
+  width: 90px; /* Ajusta según necesites */
+  height: 100%; /* Mantener relación de aspecto */
+  background-image: url("/src/assets/image.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+/* Estilo para el texto del logo */
 .logo-text {
   font-size: 1.5rem;
   font-weight: bold;
   color: #ecf0f1;
+  white-space: nowrap; /* Evita salto de línea */
 }
 
 /* Contenedor de botones */
@@ -54,7 +69,7 @@
   transition: all 0.3s ease;
   display: block; /* Comportamiento de bloque */
   width: 100%;
-  color: #8186f3;
+  color: #ffffff;
   max-width: 200px;
   text-align: center;
   align-items: center;

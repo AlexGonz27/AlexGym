@@ -91,7 +91,9 @@ const FormularioRegistro: React.FC<FormularioRegistroProps> = ({
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Registrar</button>
+        <button className="boton-registro" type="submit">
+          Registrar
+        </button>
       </form>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Modal from "./modal";
 import "./panel-maquinas.css";
 
 interface Maquina {
@@ -55,7 +56,7 @@ const FiltroEstados = ({
 };
 
 const PanelMaquinas: React.FC = () => {
-  // Datos de las máquinas movidos fuera del componente para evitar recreación en cada render
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const maquinasData: Maquina[] = [
     {
       id: 1,
@@ -93,7 +94,6 @@ const PanelMaquinas: React.FC = () => {
       imagen:
         "https://www.mundofitness.es/media/catalog/product/cache/5e0f94407d19dc82acabf59fa3abc631/0/2/02.jpg",
     },
-    // Puedes agregar más máquinas aquí
   ];
 
   const [maquinasFiltradas, setMaquinasFiltradas] =
@@ -123,52 +123,60 @@ const PanelMaquinas: React.FC = () => {
   return (
     <div className="panel-maquinas-container">
       <FiltroEstados onFiltrar={filtrarPorEstado} />
-
       <div className="maquinas-grid">
         {maquinasFiltradas.map((maquina) => (
           <div key={maquina.id} className="maquina-card">
-            <div className="maquina-imagen-container">
-              <img
-                src={maquina.imagen}
-                alt={`Máquina ${maquina.modelo}`}
-                className="maquina-imagen"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src =
-                    "https://via.placeholder.com/300x200?text=Imagen+no+disponible";
-                }}
-                onLoad={(e) => {
-                  const img = e.target as HTMLImageElement;
-                  img.style.objectFit =
-                    img.naturalHeight > img.naturalWidth * 1.5
-                      ? "contain"
-                      : "cover";
-                }}
-              />
-            </div>
-
-            <div className="maquina-info-container">
-              <div className="maquina-header">
-                <h2 className="maquina-modelo">{maquina.modelo}</h2>
-                <span
-                  className={`maquina-estado ${getEstadoColor(maquina.estado)}`}
-                >
-                  {maquina.estado}
-                </span>
+            <button
+              className="card-button"
+              onClick={() => setIsModalOpen(true)}
+            >
+              <div className="maquina-imagen-container">
+                <img
+                  src={maquina.imagen}
+                  alt={`Máquina ${maquina.modelo}`}
+                  className="maquina-imagen"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src =
+                      "https://via.placeholder.com/300x200?text=Imagen+no+disponible";
+                  }}
+                  onLoad={(e) => {
+                    const img = e.target as HTMLImageElement;
+                    img.style.objectFit =
+                      img.naturalHeight > img.naturalWidth * 1.5
+                        ? "contain"
+                        : "cover";
+                  }}
+                />
               </div>
 
-              <div className="maquina-details">
-                <p>
-                  <span className="detail-label">Marca:</span> {maquina.marca}
-                </p>
-                <p>
-                  <span className="detail-label">Grupo Muscular:</span>{" "}
-                  {maquina.grupoMuscular}
-                </p>
+              <div className="maquina-info-container">
+                <div className="maquina-header">
+                  <h2 className="maquina-modelo">{maquina.modelo}</h2>
+                  <span
+                    className={`maquina-estado ${getEstadoColor(
+                      maquina.estado
+                    )}`}
+                  >
+                    {maquina.estado}
+                  </span>
+                </div>
+
+                <div className="maquina-details">
+                  <p>
+                    <span className="detail-label">Marca:</span> {maquina.marca}
+                  </p>
+                  <p>
+                    <span className="detail-label">Grupo Muscular:</span>{" "}
+                    {maquina.grupoMuscular}
+                  </p>
+                </div>
               </div>
-            </div>
+            </button>
           </div>
         ))}
       </div>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}></Modal>
     </div>
   );
 };
