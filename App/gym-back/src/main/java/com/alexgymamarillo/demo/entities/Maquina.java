@@ -11,17 +11,23 @@ public class Maquina {
     @Column(name = "ID_Maquina")
     private Integer id;
     
-    @Column(name = "Nombre_maq", nullable = false)
-    private String nombre;
+    @Column(name = "Marca", nullable = false)
+    private String marca;
     
     @Column(name = "Modelo")
     private String modelo;
+    
+    @Column(name = "Grupo_muscular")
+    private String grupMuscular;
     
     @Column(name = "Fecha_de_Adquisicion")
     private LocalDate fechaAdquisicion;
     
     @Column(name = "Estado")
     private String estado;
+
+    @Column(name = "imagenURL")
+    private String imagenURL;
 
     // Getters y Setters (IMPORTANTE)
     public Integer getId() {
@@ -32,12 +38,12 @@ public class Maquina {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getMarca() {
+        return marca;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 
     public String getModelo() {
@@ -46,6 +52,22 @@ public class Maquina {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+    public String getGrupMuscular() {
+        return grupMuscular;
+    }
+
+    public void setGrupMuscular(String grupMuscular) {
+        this.grupMuscular = grupMuscular;
+    }
+
+    public String getImagenURL() {
+        return imagenURL;
+    }
+
+    public void setImagenURL(String imagenURL) {
+        this.imagenURL = imagenURL;
     }
 
     public LocalDate getFechaAdquisicion() {

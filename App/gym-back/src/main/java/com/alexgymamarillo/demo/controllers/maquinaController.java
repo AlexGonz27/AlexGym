@@ -45,10 +45,12 @@ public class maquinaController { // Cambiado a mayúscula (convención Java)
         Optional<Maquina> maquina = maquinaService.findById(id);
         if (maquina.isPresent()) {
             Maquina updatedMaquina = maquina.get();
-            updatedMaquina.setNombre(maquinaDetails.getNombre());
+            updatedMaquina.setMarca(maquinaDetails.getMarca());
             updatedMaquina.setModelo(maquinaDetails.getModelo());
+            updatedMaquina.setGrupMuscular(maquinaDetails.getGrupMuscular());
             updatedMaquina.setFechaAdquisicion(maquinaDetails.getFechaAdquisicion());
             updatedMaquina.setEstado(maquinaDetails.getEstado());
+            updatedMaquina.setImagenURL(maquinaDetails.getImagenURL());
             return ResponseEntity.ok(maquinaService.save(updatedMaquina));
         }
         return ResponseEntity.notFound().build();

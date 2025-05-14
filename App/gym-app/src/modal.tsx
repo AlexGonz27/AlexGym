@@ -1,79 +1,137 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Maquina } from './panel-maquinas';
 import "./modal.css";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  children?: React.ReactNode;
+  maquina: Maquina | null;
+  onSave: (maquina: Maquina) => void;
+  isLoading: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, maquina, onSave, isLoading }) => {
+  const [formData, setFormData] = useState<Maquina>({
+    id: 0,
+    modelo: "",
+    marca: "",
+    grupMuscular: "",
+    imagenURL: "",
+    estado: "Operativa"
+  });
+
+  useEffect(() => {
+    if (maquina) {
+      setFormData(maquina);
+    }
+  }, [maquina]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  if (!isOpen || !maquina) return null;
 
   return (
     <div className="modal-parent">
       <div className="modal-content">
-        <div className="modal-div1">Información de Máquina</div>
+        <form onSubmit={handleSubmit}>
+          <div className="modal-div1">Editar Máquina</div>
 
-        <div className="modal-div3">
-          <div className="form-group">
-            <label htmlFor="modelo">Modelo</label>
-            <input type="text" id="modelo" defaultValue="RX-500" />
+          <div className="modal-div3">
+            <div className="form-group">
+              <label htmlFor="modelo">Modelo</label>
+              <input 
+                type="text" 
+                id="modelo" 
+                value={formData.modelo}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="marca">Marca</label>
+              <input 
+                type="text" 
+                id="marca" 
+                value={formData.marca}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="imagenURL">Imagen URL</label>
+              <input 
+                type="text" 
+                id="imagenURL" 
+                value={formData.imagenURL}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="grupMuscular">Grupo Muscular</label>
+              <select 
+                id="grupMuscular" 
+                value={formData.grupMuscular}
+                onChange={handleChange}
+                required
+              >
+                <option value="Pierna">Pierna</option>
+                <option value="Brazo">Brazo</option>
+                <option value="Espalda">Espalda</option>
+                <option value="Pecho">Pecho</option>
+                <option value="Abdomen">Abdomen</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="estado">Estado</label>
+              <select 
+                id="estado" 
+                value={formData.estado}
+                onChange={handleChange}
+                required
+              >
+                <option value="Operativa">Operativa</option>
+                <option value="Mantenimiento">Mantenimiento</option>
+                <option value="Inactiva">Inactiva</option>
+              </select>
+            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="marca">Marca</label>
-            <input type="text" id="marca" defaultValue="TechGym" />
+          <div className="modal-div4">
+            <button 
+              type="button" 
+              className="action-button secondary-button" 
+              onClick={onClose}
+              disabled={isLoading}
+            >
+              Cancelar
+            </button>
+            <button 
+              type="submit" 
+              className="action-button primary-button"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Guardando...' : 'Guardar'}
+            </button>
           </div>
+        </form>
 
-          <div className="form-group">
-            <label htmlFor="grupo">Grupo Muscular</label>
-            <select id="grupo" defaultValue="Piernas">
-              <option value="Piernas">Piernas</option>
-              <option value="Brazos">Brazos</option>
-              <option value="Espalda">Espalda</option>
-              <option value="Pecho">Pecho</option>
-              <option value="Abdomen">Abdomen</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="estado">Estado</label>
-            <select id="estado" defaultValue="Operativa">
-              <option value="Operativa">Operativa</option>
-              <option value="Mantenimiento">Mantenimiento</option>
-              <option value="Inactiva">Inactiva</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="imagen">URL de Imagen</label>
-            <input
-              type="text"
-              id="imagen"
-              defaultValue="https://ejemplo.com/imagen.jpg"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="notas">Notas Adicionales</label>
-            <textarea
-              id="notas"
-              rows={3}
-              className="form-control"
-              defaultValue="Máquina en buen estado"
-            />
-          </div>
-        </div>
-
-        <div className="modal-div4">
-          <button className="action-button secondary-button" onClick={onClose}>
-            Cancelar
-          </button>
-          <button className="action-button primary-button">Guardar</button>
-        </div>
-
-        <button className="close-button" onClick={onClose}>
+        <button className="close-button" onClick={onClose} disabled={isLoading}>
           ×
         </button>
       </div>

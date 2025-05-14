@@ -13,7 +13,7 @@
 
 .modal-content {
   width: 800px;
-  max-height: 500px;
+  min-height: 400px;
   background: #2c2c2c;
   border-radius: 12px;
   padding: 30px 40px 20px 40px;
@@ -23,6 +23,8 @@
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Título */

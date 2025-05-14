@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import "./formulario-maquina.css";
 
 interface FormData {
-  nombre: string;
+  marca: string;
   modelo: string;
+  grupMuscular: string;
   estado: string;
   fechaAdquisicion: string;
 }
 
 const FormularioRegistro: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    nombre: "",
+    marca: "",
     modelo: "",
+    grupMuscular: "",
     estado: "activo",
     fechaAdquisicion: "",
   });
@@ -45,13 +47,13 @@ const FormularioRegistro: React.FC = () => {
         throw new Error(`Error HTTP: ${response.status}`);
       }
 
-      const data = await response.json();
       setSubmitStatus({success: true, message: 'Máquina registrada exitosamente!'});
       
       // Limpiar el formulario después de un envío exitoso
       setFormData({
-        nombre: "",
+        marca: "",
         modelo: "",
+        grupMuscular: "",
         estado: "Activo",
         fechaAdquisicion: "",
       });
@@ -73,11 +75,11 @@ const FormularioRegistro: React.FC = () => {
       )}
       <form onSubmit={handleSubmit}>
         <label>
-          Nombre:
+          Marca:
           <input
             type="text"
-            name="nombre"
-            value={formData.nombre}
+            name="marca"
+            value={formData.marca}
             onChange={handleChange}
             required
           />
@@ -91,6 +93,16 @@ const FormularioRegistro: React.FC = () => {
             onChange={handleChange}
             required
           />
+        </label>
+        <label>
+          Grupo Muscular:
+          <select name="grupMuscular" value={formData.grupMuscular} onChange={handleChange}>
+            <option value="Pierna">Pierna</option>
+            <option value="Brazo">Brazo</option>
+            <option value="Espalda">Espalda</option>
+            <option value="Pecho">Pecho</option>
+            <option value="Abdomen">Abdomen</option>
+          </select>
         </label>
         <label>
           Estado:
@@ -109,18 +121,6 @@ const FormularioRegistro: React.FC = () => {
             onChange={handleChange}
           />
         </label>
-        <label>
-          Notas:
-          <input
-            className="Nota-maquina"
-            type="text"
-            name="notas"
-            value={formData.notas}
-            onChange={handleChange}
-          />
-        </label>
-        <button className="boton-registro" type="submit">
-          Registrar
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Registrando...' : 'Registrar'}
         </button>
