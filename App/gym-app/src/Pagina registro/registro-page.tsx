@@ -8,10 +8,12 @@ const RegistroPage: React.FC = () => {
   const [formData, setFormData] = useState({
     marca: "",
     modelo: "",
+    grupMuscular: "",
     estado: "activo",
+    fechaAdquisicion: "",
+    imagenURL: "",
     numeroSerie: "",
     ubicacion: "",
-    fechaAdquisicion: "",
     notas: "",
   });
 

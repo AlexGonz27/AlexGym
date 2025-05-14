@@ -6,6 +6,7 @@ interface FormData {
   modelo: string;
   grupMuscular: string;
   estado: string;
+  imagenURL: string;
   fechaAdquisicion: string;
 }
 
@@ -15,6 +16,7 @@ const FormularioRegistro: React.FC = () => {
     modelo: "",
     grupMuscular: "",
     estado: "activo",
+    imagenURL: "",
     fechaAdquisicion: "",
   });
 
@@ -55,6 +57,7 @@ const FormularioRegistro: React.FC = () => {
         modelo: "",
         grupMuscular: "",
         estado: "Activo",
+        imagenURL: "",
         fechaAdquisicion: "",
       });
     } catch (error) {
@@ -119,6 +122,16 @@ const FormularioRegistro: React.FC = () => {
             name="fechaAdquisicion"
             value={formData.fechaAdquisicion}
             onChange={handleChange}
+          />
+        </label>
+        <label>
+          Imagen URL:
+          <input
+            type="text"
+            name="imagenURL"
+            value={formData.imagenURL}
+            onChange={handleChange}
+            required
           />
         </label>
         <button type="submit" disabled={isSubmitting}>
