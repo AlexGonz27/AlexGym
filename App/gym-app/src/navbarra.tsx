@@ -10,8 +10,11 @@ const Navbar: React.FC = () => {
           <span className="logo-text">ALESKYGYM</span>
         </div>
         <div className="navbar-buttons">
-          <Link to="/page-registro" className="no-underline">
-            <button className="nav-button secondary">Pantalla registro</button>
+          <Link to="/" className="no-underline">
+            <button className="nav-button primary">Inicio</button>
+          </Link>
+          <Link to="/page-zonas" className="no-underline">
+            <button className="nav-button secondary">Zonas</button>
           </Link>
         </div>
         <div className="navbar-spacer"></div> {/* Espacio flexible opcional */}

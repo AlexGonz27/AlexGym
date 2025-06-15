@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./formulario-maquina.css";
 
 interface FormData {
@@ -6,124 +6,178 @@ interface FormData {
   modelo: string;
   grupMuscular: string;
   estado: string;
-  imagenURL: string;
   fechaAdquisicion: string;
+  imagenURL: string;
 }
 
-const FormularioRegistro: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    marca: "",
-    modelo: "",
-    grupMuscular: "",
-    estado: "activo",
-    imagenURL: "",
-    fechaAdquisicion: "",
-  });
+interface FormularioRegistroProps {
+  formData: FormData;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  handleSubmit: (e: React.FormEvent) => void;
+  isSubmitting?: boolean;
+  submitStatus?: {
+    success: boolean;
+    message: string;
+  } | null;
+  resetForm: boolean; // Nueva prop para indicar cuando se debe resetear
+}
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{success: boolean; message: string} | null>(null);
+const FormularioRegistro: React.FC<FormularioRegistroProps> = ({
+  formData,
+  handleChange,
+  handleSubmit,
+  isSubmitting = false,
+  submitStatus = null,
+  resetForm = false, // Valor por defecto
+}) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  // Efecto para resetear los errores y campos tocados cuando se limpia el formulario
+  useEffect(() => {
+    if (resetForm) {
+      setErrors({});
+      setTouched({});
+    }
+  }, [resetForm]);
+
+  const validateField = (name: string, value: string) => {
+    if (!touched[name]) return "";
+
+    if (!value.trim()) {
+      return "Este campo es requerido";
+    }
+
+    return "";
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      const response = await fetch('http://localhost:8080/api/maquinas/crear', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
+  useEffect(() => {
+    const newErrors: Record<string, string> = {};
+    Object.keys(formData).forEach((key) => {
+      if (key !== "imagenURL" && key !== "ubicacion") {
+        newErrors[key] = validateField(key, formData[key as keyof FormData]);
       }
+    });
+    setErrors(newErrors);
+  }, [formData, touched]);
 
-      setSubmitStatus({success: true, message: 'Máquina registrada exitosamente!'});
-      
-      // Limpiar el formulario después de un envío exitoso
-      setFormData({
-        marca: "",
-        modelo: "",
-        grupMuscular: "",
-        estado: "Activo",
-        imagenURL: "",
-        fechaAdquisicion: "",
-      });
-    } catch (error) {
-      console.error('Error al enviar los datos:', error);
-      setSubmitStatus({success: false, message: 'Error al registrar la máquina. Por favor, inténtalo de nuevo.'});
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
+
+  const isFormValid = () => {
+    return (
+      Object.values(errors).every((error) => !error) &&
+      Object.values(touched).some((t) => t)
+    );
   };
 
   return (
     <div className="registro-formulario">
       <h1>Registrar máquina</h1>
       {submitStatus && (
-        <div className={`submit-status ${submitStatus.success ? 'success' : 'error'}`}>
+        <div
+          className={`submit-status ${
+            submitStatus.success ? "success" : "error"
+          }`}
+        >
           {submitStatus.message}
         </div>
       )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <label>
-          Marca:
+          Marca*:
           <input
             type="text"
             name="marca"
             value={formData.marca}
             onChange={handleChange}
+            onBlur={() => handleBlur("marca")}
+            className={errors.marca ? "error-border" : ""}
             required
           />
+          {errors.marca && <div className="error-message">{errors.marca}</div>}
         </label>
+
         <label>
-          Modelo:
+          Modelo*:
           <input
             type="text"
             name="modelo"
             value={formData.modelo}
             onChange={handleChange}
+            onBlur={() => handleBlur("modelo")}
+            className={errors.modelo ? "error-border" : ""}
             required
           />
+          {errors.modelo && (
+            <div className="error-message">{errors.modelo}</div>
+          )}
         </label>
+
         <label>
-          Grupo Muscular:
-          <select name="grupMuscular" value={formData.grupMuscular} onChange={handleChange}>
+          Grupo Muscular*:
+          <select
+            name="grupMuscular"
+            value={formData.grupMuscular}
+            onChange={handleChange}
+            onBlur={() => handleBlur("grupMuscular")}
+            className={errors.grupMuscular ? "error-border" : ""}
+            required
+          >
+            <option value="">Seleccione...</option>
             <option value="Pierna">Pierna</option>
             <option value="Brazo">Brazo</option>
             <option value="Espalda">Espalda</option>
             <option value="Pecho">Pecho</option>
             <option value="Abdomen">Abdomen</option>
           </select>
+          {errors.grupMuscular && (
+            <div className="error-message">{errors.grupMuscular}</div>
+          )}
         </label>
+
         <label>
-          Estado:
-          <select name="estado" value={formData.estado} onChange={handleChange}>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-            <option value="mantenimiento">En Mantenimiento</option>
+          Estado*:
+          <select
+            name="estado"
+            value={formData.estado}
+            onChange={(e) => {
+              handleChange(e);
+              handleBlur("estado");
+            }}
+            onBlur={() => handleBlur("estado")}
+            className={errors.estado ? "error-border" : ""}
+            required
+          >
+            <option value="">Seleccione un estado...</option>
+            <option value="Operativa">Operativa</option>
+            <option value="Inactivo">Inactivo</option>
+            <option value="Mantenimiento">En mantenimiento</option>
           </select>
+          {errors.estado && (
+            <div className="error-message">{errors.estado}</div>
+          )}
         </label>
+
         <label>
-          Fecha de Adquisición:
+          Fecha de Adquisición*:
           <input
             type="date"
             name="fechaAdquisicion"
             value={formData.fechaAdquisicion}
             onChange={handleChange}
+            onBlur={() => handleBlur("fechaAdquisicion")}
+            className={errors.fechaAdquisicion ? "error-border" : ""}
+            required
           />
+          {errors.fechaAdquisicion && (
+            <div className="error-message">{errors.fechaAdquisicion}</div>
+          )}
         </label>
+
         <label>
           Imagen URL:
           <input
@@ -131,11 +185,15 @@ const FormularioRegistro: React.FC = () => {
             name="imagenURL"
             value={formData.imagenURL}
             onChange={handleChange}
-            required
           />
         </label>
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Registrando...' : 'Registrar'}
+
+        <button
+          type="submit"
+          disabled={isSubmitting || !isFormValid()}
+          className={isSubmitting || !isFormValid() ? "disabled-button" : ""}
+        >
+          {isSubmitting ? "Registrando..." : "Registrar"}
         </button>
       </form>
     </div>

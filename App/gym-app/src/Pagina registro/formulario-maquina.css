@@ -69,3 +69,36 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.submit-status {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  text-align: center;
+  grid-column: span 2;
+}
+
+.submit-status.success {
+  background-color: #dff0d8;
+  color: #3c763d;
+}
+
+.submit-status.error {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+.error-border {
+  border: 2px solid #ff4444 !important;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
