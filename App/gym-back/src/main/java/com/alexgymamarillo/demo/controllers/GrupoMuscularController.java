@@ -10,7 +10,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/grupos")
 @CrossOrigin(origins = "http://localhost:5173")
-
 public class GrupoMuscularController {
     @Autowired
     private final GrupoMuscularService service;

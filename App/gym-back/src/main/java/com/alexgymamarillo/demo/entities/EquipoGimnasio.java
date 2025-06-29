@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table (name = "equipogimnasio")
 public class EquipoGimnasio {
 
     @Id
@@ -13,10 +14,10 @@ public class EquipoGimnasio {
 
     private String nombre;
     private String modelo;
+    private LocalDate fecha_adquisicion;
     private String estado;
     private String imagen;
     private Double peso;
-    private LocalDate fechaAdquisicion;
 
     @ManyToOne
     @JoinColumn(name = "tipo_equipo_id")
@@ -28,7 +29,7 @@ public class EquipoGimnasio {
 
     @ManyToMany
     @JoinTable(
-        name = "equipo_grupo_muscular",
+        name = "equipogrupomuscular",
         joinColumns = @JoinColumn(name = "equipo_serial"),
         inverseJoinColumns = @JoinColumn(name = "grupo_muscular_id")
     )
@@ -92,11 +93,11 @@ public class EquipoGimnasio {
     }
 
     public LocalDate getFechaAdquisicion() {
-        return fechaAdquisicion;
+        return fecha_adquisicion;
     }
 
-    public void setFechaAdquisicion(LocalDate fechaAdquisicion) {
-        this.fechaAdquisicion = fechaAdquisicion;
+    public void setFechaAdquisicion(LocalDate fecha_adquisicion) {
+        this.fecha_adquisicion = fecha_adquisicion;
     }
 
     public TipoEquipo getTipoEquipo() {

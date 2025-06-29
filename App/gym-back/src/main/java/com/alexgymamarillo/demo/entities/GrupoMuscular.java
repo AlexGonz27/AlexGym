@@ -1,10 +1,9 @@
 package com.alexgymamarillo.demo.entities;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
+@Table (name = "grupomuscular")
 public class GrupoMuscular {
 
     @Id
@@ -12,9 +11,6 @@ public class GrupoMuscular {
     private Long id;
 
     private String nombre;
-
-    @ManyToMany(mappedBy = "gruposMusculares")
-    private List<EquipoGimnasio> equipos = new ArrayList<>();
 
     public GrupoMuscular() {
     }
@@ -33,13 +29,5 @@ public class GrupoMuscular {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public List<EquipoGimnasio> getEquipos() {
-        return equipos;
-    }
-
-    public void setEquipos(List<EquipoGimnasio> equipos) {
-        this.equipos = equipos;
     }
 }
